@@ -1,6 +1,7 @@
 #!flask/bin/python
 #!/usr/bin/env python3
 import six
+import logging
 from flask import Flask, request
 from flask_json import json_response
 from model import Dao
@@ -8,7 +9,9 @@ from model import Dao
 app = Flask(__name__, static_url_path="")
 
 
-
+log = logging.getLogger('werkzeug')
+log.disabled = True
+app.logger.disabled = True
 
 app = Flask(__name__)
 app.config['JSON_ADD_STATUS'] = True
@@ -76,4 +79,4 @@ def error_404(e):
 
 
 if __name__ == '__main__':
-    app.run(port=3000)
+    app.run(host='0.0.0.0',port=3000)
