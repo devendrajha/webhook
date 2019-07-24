@@ -8,7 +8,6 @@ import logging
 
 app = Flask(__name__, static_url_path="")
 
-
 log = logging.getLogger('werkzeug')
 log.disabled = True
 app.logger.disabled = True
@@ -82,7 +81,6 @@ def delete_document_by_cuid():
                 return json_response(http_status=500, message='Some errors occurred in the process.')
         except Exception:
             return json_response(http_status=422, message='Invalid parameter to delete.')
-
 
 
 @app.errorhandler(404)

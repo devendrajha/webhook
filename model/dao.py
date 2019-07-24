@@ -26,7 +26,7 @@ class Dao():
 
     def insert_document(self, document):
             try:
-                #document["create_date"]=int(time.time())
+                #document["_insertid"]=int(time.time())
                 self.collection.insert_one(document)
                 return True
             except Exception as e:
@@ -35,10 +35,18 @@ class Dao():
 
 
     def delete_document(self, sku):
-        print("sku",sku)
         try:
             self.collection.delete_many({"data.sku": sku})
-            print('[INFO]: Record deleted successfully')
+            print('[INFO]: All Record deleted successfully of sku',sku)
+            return True
+        except Exception as e:
+            print('[ERROR]: Error to delete data of database. \n', e)
+            return False
+        
+    def delete_document_cuid(self, cuid):
+        try:
+            self.collection.delete_many({"cuId": cuid})
+            print('[INFO]: All Record deleted successfully of cuId',cuid)
             return True
         except Exception as e:
             print('[ERROR]: Error to delete data of database. \n', e)
