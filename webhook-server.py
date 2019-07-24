@@ -1,10 +1,10 @@
 #!flask/bin/python
 #!/usr/bin/env python3
 import six
-import logging
 from flask import Flask, request
 from flask_json import json_response
 from model import Dao
+import logging
 
 app = Flask(__name__, static_url_path="")
 
@@ -58,10 +58,8 @@ def post_document():
             return json_response(http_status=422, message='Some errors occurred in the process')
 
 
-
-
 @app.route('/snp/webhooks/<sku>', methods=['DELETE'])
-def delete_document(sku):
+def delete_document_by_sku(sku):
     if request.method == 'DELETE':
         dao = Dao()
         try:
@@ -72,10 +70,25 @@ def delete_document(sku):
         except Exception:
             return json_response(http_status=422, message='Invalid parameter to delete.')
 
+@app.route('/snp/webhooks', methods=['DELETE'])
+def delete_document_by_cuid():
+    cuid=request.args.get('cuid')
+    if request.method == 'DELETE':
+        dao = Dao()
+        try:
+            if dao.delete_document_cuid(cuid):
+                return json_response(http_status=202, message='Record deleted successfully.')
+            else:
+                return json_response(http_status=500, message='Some errors occurred in the process.')
+        except Exception:
+            return json_response(http_status=422, message='Invalid parameter to delete.')
+
+
 
 @app.errorhandler(404)
 def error_404(e):
     return json_response(http_status=404, message='Unknown URL')
+
 
 
 if __name__ == '__main__':

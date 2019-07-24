@@ -26,7 +26,7 @@ class Dao():
 
     def insert_document(self, document):
             try:
-                #document["_insertid"]=int(time.time())
+                #document["create_date"]=int(time.time())
                 self.collection.insert_one(document)
                 return True
             except Exception as e:
