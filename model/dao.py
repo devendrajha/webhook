@@ -51,3 +51,12 @@ class Dao():
         except Exception as e:
             print('[ERROR]: Error to delete data of database. \n', e)
             return False
+
+    def delete_document_deviceid(self, deviceId):
+        try:
+            self.collection.delete_many({"data.deviceId": deviceId})
+            print('[INFO]: All Record deleted successfully of deviceId',deviceId)
+            return True
+        except Exception as e:
+            print('[ERROR]: Error to delete data of database. \n', e)
+            return False

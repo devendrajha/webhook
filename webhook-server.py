@@ -69,9 +69,9 @@ def delete_document_by_sku(sku):
         except Exception:
             return json_response(http_status=422, message='Invalid parameter to delete.')
 
-@app.route('/snp/webhooks', methods=['DELETE'])
+@app.route('/snp/webhooks/bycuId', methods=['DELETE'])
 def delete_document_by_cuid():
-    cuid=request.args.get('cuid')
+    cuid=request.args.get('cuId')
     if request.method == 'DELETE':
         dao = Dao()
         try:
@@ -82,6 +82,18 @@ def delete_document_by_cuid():
         except Exception:
             return json_response(http_status=422, message='Invalid parameter to delete.')
 
+@app.route('/snp/webhooks/bydeviceId', methods=['DELETE'])
+def delete_document_by_deviceid():
+    deviceId=request.args.get('deviceId')
+    if request.method == 'DELETE':
+        dao = Dao()
+        try:
+            if dao.delete_document_deviceid(deviceId):
+                return json_response(http_status=202, message='Record deleted successfully.')
+            else:
+                return json_response(http_status=500, message='Some errors occurred in the process.')
+        except Exception:
+            return json_response(http_status=422, message='Invalid parameter to delete.')
 
 @app.errorhandler(404)
 def error_404(e):
